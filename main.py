@@ -39,7 +39,6 @@ while running:
             gameManager.pacman.run_mode = True
             start_run_time = pygame.time.get_ticks()
 
-
     # check if game is over
     if gameManager.calculate_num_of_threatening_ghosts() > 1:
         running = False
