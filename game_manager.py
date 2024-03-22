@@ -156,6 +156,14 @@ class GameManager:
         # Mark the source node as visited and enqueue it
         visited[self.pacman.row][self.pacman.col] = True
 
+        for coin in self.list_of_coins:
+            if coin.row == self.pacman.row and coin.col == self.pacman.col:
+                coin.collect()
+                self.list_of_coins.remove(coin)
+                self.maze[self.pacman.row][self.pacman.col] = 0
+                self.coin_counter += 1
+                break
+
         while queue:
             # Dequeue a vertex from queue
             node = queue.pop(0)

@@ -13,7 +13,7 @@ running = True
 
 # timer for action events
 pygame.time.set_timer(MOVE_PACMAN, 250)
-pygame.time.set_timer(MOVE_GHOST, 250)
+pygame.time.set_timer(MOVE_GHOST, 350)
 pygame.time.set_timer(REGENERATE_COINS, 1000)
 pygame.time.set_timer(DESTROY_COINS, 1000)
 
