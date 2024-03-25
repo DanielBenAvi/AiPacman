@@ -54,16 +54,16 @@ while running:
     for event in pygame.event.get():  # get all events in the last 1/60th of a second
         if event.type == pygame.QUIT:  # if the user clicked X
             running = False
-        elif event.type == REGENERATE_COINS:  # regenerate coins
+        if event.type == REGENERATE_COINS:  # regenerate coins
             gameManager.add_coin()
-        elif event.type == DESTROY_COINS:  # destroy coins
+        if event.type == DESTROY_COINS:  # destroy coins
             gameManager.remove_coin()
-        elif event.type == MOVE_PACMAN:  # move pacman
+        if event.type == MOVE_PACMAN:  # move pacman
             if gameManager.pacman.run_mode:  # if pacman is threatened by a ghost
                 gameManager.run_away_pacman()
             else:
                 gameManager.move_pacman()
-        elif event.type == MOVE_GHOST:  # move all ghosts
+        if event.type == MOVE_GHOST:  # move all ghosts
             for i in range(len(gameManager.ghosts)):
                 gameManager.move_ghost(i, screen)
 
