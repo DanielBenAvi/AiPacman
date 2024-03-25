@@ -8,7 +8,7 @@ from Settings.colors import *
 # pygame setup
 pygame.init()
 pygame.display.set_caption("Pacman")
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+game_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 running = True
 start_run_time = pygame.time.get_ticks()
@@ -65,28 +65,28 @@ while running:
                 gameManager.move_pacman()
         if event.type == MOVE_GHOST:  # move all ghosts
             for i in range(len(gameManager.ghosts)):
-                gameManager.move_ghost(i, screen)
+                gameManager.move_ghost(i, game_screen)
 
     # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+    game_screen.fill("purple")
 
     # ################# DRAW ##################
-    draw_maze(screen, gameManager.maze)
-    draw_coins(screen, gameManager.list_of_coins)
-    gameManager.pacman.draw(screen)
+    draw_maze(game_screen, gameManager.maze)
+    draw_coins(game_screen, gameManager.list_of_coins)
+    gameManager.pacman.draw(game_screen)
     for ghost in gameManager.ghosts:
-        ghost.draw(screen)
+        ghost.draw(game_screen)
 
     # ################# TEXT ##################
     font = pygame.font.Font(None, 36)
 
     # Coin counter
     text = font.render(f"Coins: {gameManager.coin_counter}", True, WHITE)
-    screen.blit(text, (10, 10))
+    game_screen.blit(text, (10, 10))
 
     # Pacman mode
     text = font.render(f"Threatening: {gameManager.calculate_num_of_threatening_ghosts()}", True, WHITE)
-    screen.blit(text, (10, 40))
+    game_screen.blit(text, (10, 40))
 
     # ################# END DRAW ##################
     pygame.display.flip()  # updates the screen
