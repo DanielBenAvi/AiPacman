@@ -141,7 +141,7 @@ class GameManager:
                 self.coin_counter += 1
                 break
 
-    def move_direction(self, tmp_row, tmp_col, game_object: Pacman | Ghost):
+    def move_direction(self, tmp_row, tmp_col, game_object: Pacman | Ghost, direction: int = 1):
         temp_direction = (0, 0)
         if tmp_row < game_object.row:
             temp_direction = NEW_DIRECTIONS["UP"]
@@ -156,8 +156,8 @@ class GameManager:
             temp_direction = NEW_DIRECTIONS["RIGHT"]
 
         if self.is_valid_move(game_object.row + temp_direction[0], game_object.col + temp_direction[1]):
-            game_object.row += temp_direction[0]
-            game_object.col += temp_direction[1]
+            game_object.row += (temp_direction[0] * direction)
+            game_object.col += (temp_direction[1] * direction)
 
     def run_away_pacman(self):
         # Create a queue for BFS
@@ -193,35 +193,9 @@ class GameManager:
                 # If the node is a ghost, return the path and move pacman to the opposite direction
                 for ghost in self.ghosts:
                     if row + direction[0] == ghost.row and col + direction[1] == ghost.col:
-                        # find the path to the ghost
-                        tmp_row, tmp_col = row + direction[0], col + direction[1]
-                        while node.parent:
-                            node = node.parent
-                            # if node is the pacman, break
-                            if node.row == self.pacman.row and node.col == self.pacman.col:
-                                break
-                            tmp_row, tmp_col = node.row, node.col
+                        tmp_row, tmp_col = restore_path(direction, node, row, col, self.pacman)
 
-                        # move the pacman only one step and not diagonally
-                        if tmp_row == self.pacman.row:
-                            tmp_row = 0
-                        else:
-                            tmp_row = 1 if tmp_row > self.pacman.row else -1
-
-                        if tmp_col == self.pacman.col:
-                            tmp_col = 0
-                        else:
-                            tmp_col = 1 if tmp_col > self.pacman.col else -1
-
-                        if self.is_valid_move(self.pacman.row - tmp_row, self.pacman.col - tmp_col):
-                            self.pacman.row -= tmp_row
-                            self.pacman.col -= tmp_col
-                        else:
-                            for new_dir in DIRECTIONS:
-                                if self.is_valid_move(self.pacman.row + new_dir[0], self.pacman.col + new_dir[1]):
-                                    self.pacman.row += new_dir[0]
-                                    self.pacman.col += new_dir[1]
-                                    return
+                        self.move_direction(tmp_row, tmp_col, self.pacman, -1)
 
                         return
 
