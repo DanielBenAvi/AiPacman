@@ -1,6 +1,3 @@
-# Example file showing a basic pygame "game loop"
-import pygame
-from Settings.game_settings import *
 from game_manager import GameManager
 from draw import *
 from Settings.colors import *

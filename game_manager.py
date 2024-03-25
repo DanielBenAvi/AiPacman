@@ -7,6 +7,7 @@ from random import random
 
 from Objects.ghost import Ghost
 from Objects.pacman import Pacman
+
 from Settings.colors import *
 from Settings.game_settings import *
 from Settings.priorityQueue import PriorityQueue
