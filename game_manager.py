@@ -20,6 +20,23 @@ def generate_maze() -> list[list[int]]:
     return maze
 
 
+def init_queue(game_object: Pacman | Ghost):
+    queue: list[Node] = [Node(game_object.row, game_object.col, None)]
+    return queue
+
+
+def restore_path(direction, node, row, col, game_object: Pacman | Ghost):
+    # If the node is a coin, return the path
+    tmp_row, tmp_col = row + direction[0], col + direction[1]
+    while node.parent:
+        node = node.parent
+        # if node is the pacman, break
+        if node.row == game_object.row and node.col == game_object.col:
+            break
+        tmp_row, tmp_col = node.row, node.col
+    return tmp_row, tmp_col
+
+
 @dataclass
 class GameManager:
     maze: list[list[int]]
@@ -73,7 +90,7 @@ class GameManager:
     def move_pacman(self):
         ...
         # Create a queue for BFS
-        queue = self.init_queue(self.pacman)
+        queue = init_queue(self.pacman)
         # Mark the source node as visited and enqueue it
         visited = [[False for _ in range(NUM_OF_TILES)] for _ in range(NUM_OF_TILES)]
 
@@ -108,7 +125,7 @@ class GameManager:
                     continue
 
                 # If the node is a coin, return the path
-                tmp_row, tmp_col = self.restore_path(direction, node, row, col, self.pacman)
+                tmp_row, tmp_col = restore_path(direction, node, row, col, self.pacman)
 
                 # move the pacman to the next step
                 self.move_direction(tmp_row, tmp_col, self.pacman)
@@ -142,26 +159,12 @@ class GameManager:
             game_object.row += temp_direction[0]
             game_object.col += temp_direction[1]
 
-    def restore_path(self, direction, node, row, col, game_object: Pacman | Ghost):
-        # If the node is a coin, return the path
-        tmp_row, tmp_col = row + direction[0], col + direction[1]
-        while node.parent:
-            node = node.parent
-            # if node is the pacman, break
-            if node.row == game_object.row and node.col == game_object.col:
-                break
-            tmp_row, tmp_col = node.row, node.col
-        return tmp_row, tmp_col
-
     def run_away_pacman(self):
         # Create a queue for BFS
-        queue = self.init_queue(self.pacman)
+        queue = init_queue(self.pacman)
 
         # Mark the source node as visited and enqueue it
-        visited = [[False for _ in range(NUM_OF_TILES)] for _ in range(NUM_OF_TILES)]
-
-        # Mark the source node as visited and enqueue it
-        visited[self.pacman.row][self.pacman.col] = True
+        visited = {(self.pacman.row, self.pacman.col): True}
 
         # remove the coin from the list
         self.coin_collision()
@@ -172,7 +175,7 @@ class GameManager:
             row, col = node.row, node.col
 
             # add to visited
-            visited[row][col] = True
+            visited[(row, col)] = True
 
             # Otherwise enqueue its adjacent nodes
             for direction in DIRECTIONS:
@@ -181,7 +184,7 @@ class GameManager:
                     continue
 
                 # check if visited
-                if visited[row + direction[0]][col + direction[1]]:
+                if visited.get((row + direction[0], col + direction[1])):
                     continue
 
                 # enqueue the next node
@@ -221,10 +224,6 @@ class GameManager:
                                     return
 
                         return
-
-    def init_queue(self, game_object: Pacman | Ghost):
-        queue: list[Node] = [Node(game_object.row, game_object.col, None)]
-        return queue
 
     def move_ghost(self, current_ghost_index: int, screen: pygame.Surface):
         if len(self.ghosts) == 0:
@@ -267,7 +266,7 @@ class GameManager:
                 # check if pacman
                 if row + children[0] == self.pacman.row and col + children[1] == self.pacman.col:
                     # If the node is a coin, return the path
-                    tmp_row, tmp_col = self.restore_path(children, node, row, col, self.ghosts[current_ghost_index])
+                    tmp_row, tmp_col = restore_path(children, node, row, col, self.ghosts[current_ghost_index])
 
                     # move the pacman to the next step
                     self.move_direction(tmp_row, tmp_col, self.ghosts[current_ghost_index])

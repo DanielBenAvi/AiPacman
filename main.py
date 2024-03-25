@@ -19,11 +19,11 @@ gameManager = GameManager()
 pygame.time.set_timer(MOVE_PACMAN, 250)
 pygame.time.set_timer(MOVE_GHOST, 500)
 pygame.time.set_timer(REGENERATE_COINS, 1000)
-pygame.time.set_timer(DESTROY_COINS, 1000)
+pygame.time.set_timer(DESTROY_COINS, 2000)
 
 
 def change_run_mode(status: bool):
-    global current_time, start_run_time
+    global start_run_time
     current_time = pygame.time.get_ticks()
     if current_time - start_run_time >= 1000:
         gameManager.pacman.run_mode = status
