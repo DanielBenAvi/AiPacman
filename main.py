@@ -25,7 +25,7 @@ pygame.time.set_timer(DESTROY_COINS, 2000)
 def change_run_mode(status: bool):
     global start_run_time
     current_time = pygame.time.get_ticks()
-    if current_time - start_run_time >= 1000:
+    if current_time - start_run_time >= 500:
         gameManager.pacman.run_mode = status
         start_run_time = pygame.time.get_ticks()
 

@@ -7,8 +7,8 @@ Both the Pacman and the Ghosts are controlled by AI algorithms.
 1. Each second one coin is created.
 2. Each Second one coin is deleted.
 3. If the pacman eats a coin, the score is increased by 1.
-4. If the pacman is getting to the range of the ghost, after 2 second its start running away from the ghost.
-5. After the pacman escaped from the ghost, the pacman will continue to run away for 2 more seconds.
+4. If the pacman is getting to the range of the ghost, after 1 second its start running away from the ghost.
+5. After the pacman escaped from the ghost, the pacman will continue to run away for 1 more seconds.
 6. If the ghost catches the pacman, the game is over.
 7. If the 2 ghosts are Threatening, the game is over. 
 

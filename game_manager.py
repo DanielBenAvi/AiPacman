@@ -155,9 +155,11 @@ class GameManager:
         elif tmp_col > game_object.col:
             temp_direction = NEW_DIRECTIONS["RIGHT"]
 
+        temp_direction = (temp_direction[0] * direction, temp_direction[1] * direction)
+
         if self.is_valid_move(game_object.row + temp_direction[0], game_object.col + temp_direction[1]):
-            game_object.row += (temp_direction[0] * direction)
-            game_object.col += (temp_direction[1] * direction)
+            game_object.row += temp_direction[0]
+            game_object.col += temp_direction[1]
 
     def run_away_pacman(self):
         # Create a queue for BFS
