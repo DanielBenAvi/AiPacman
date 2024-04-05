@@ -37,3 +37,9 @@ After that, you can run the following command:
 ```bash
 python3 main.py
 ```
+
+## Contributors
+| Name                                              | ID        |
+|---------------------------------------------------|-----------|
+| [Yaniv Ben-David](https://github.com/bendayaniv)  | 316498468 |
+| [Daniel Ben-Avi](https://github.com/DanielBenAvi) | 207005448 |
